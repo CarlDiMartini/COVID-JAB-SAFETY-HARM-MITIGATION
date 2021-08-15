@@ -1,0 +1,25 @@
+classification_report for (y_test, y_pred) using support vector classification:
+              precision    recall  f1-score   support
+
+           0       0.79      0.91      0.85       964
+           1       0.73      0.52      0.61       468
+
+    accuracy                           0.78      1432
+   macro avg       0.76      0.71      0.73      1432
+weighted avg       0.77      0.78      0.77      1432
+
+Breakdown on the implementation of support vector classification:
+
+x_cols = df_at_risk[['Cardiac', 'long hospital stay', 'Resuscitation', 'AGE_YRS', 'NUMDAYS', 'M', 'F',\
+                     'HOSPDAYS']]
+X_train, X_test, y_train, y_test = train_test_split(x_cols, df_at_risk['DIED'], test_size=0.33)
+scaler_object = StandardScaler()
+X_train = scaler_object.fit_transform(X_train)
+X_test = scaler_object.transform(X_test)
+classifier = svm.SVC(kernel = 'linear', gamma = 'auto', C = 2, probability=True)
+classifier.fit(X_train, y_train)
+y_pred = classifier.predict(X_test)
+probs = classifier.predict_proba(X_test)
+metrics.accuracy_score(y_test, y_pred)
+
+0.7800279329608939
